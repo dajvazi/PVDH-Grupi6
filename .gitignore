@@ -18,3 +18,7 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# Daljet e medha rigjenerohet me main.py
+data/processed/*.csv
+!data/processed/.gitkeep
