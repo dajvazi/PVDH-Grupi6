@@ -48,6 +48,18 @@ def main():
         })
     ruaj(pd.DataFrame(raport), "kualiteti_raport.csv")
 
+    print("Duplikatë të plotë:", df.duplicated().sum())
+    print("Duplikatë në çelësin (MUAJI, Origjina, Kodi Tarifor):",
+          df.duplicated(["MUAJI", "Origjina", "Kodi Tarifor"]).sum())
+    print("Përshkrime me problem encoding-u ('?'):",
+          df["Kodi Tarifor"].str.contains("?", regex=False).sum())
+    print("Origjina jo-shtete:",
+          df.loc[df["Origjina"].str.startswith(("XX", "XY")), "Origjina"].unique().tolist())
+
+    # Kontroll konsistence: TVSH ~ 18% e (vlera + dogana + akciza)
+    baza = df["Vlera Mallrave"] + df["Taksa Doganës"] + df["Taksa Akcizës"]
+    norma = (df["Taksa TVSH-së"] / baza).where(baza > 0)
+    print("Norma mediane e TVSH-së:", round(norma.median(), 3))
 
 if __name__ == "__main__":
     main()
