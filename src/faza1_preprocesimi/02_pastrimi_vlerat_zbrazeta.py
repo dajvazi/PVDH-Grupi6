@@ -42,8 +42,23 @@ def main():
     # VITI dhe Regjimi janë konstante; Origjina dhe Kodi Tarifor u zëvendësuan
     df = df.drop(columns=["VITI", "Regjimi", "Origjina", "Kodi Tarifor"]).rename(columns=RIEMERTIMI)
 
+    # --- Vlerat e zbrazëta ---
+    # Sasia mungon kur malli nuk ka njësi plotësuese, pra NaN = "nuk aplikohet".
+    df["ka_sasi"] = df["sasia"].notna().astype(int)
+    print(f"Sasia NaN: {df['sasia'].isna().mean():.1%}")
+
+    # Krahasimi i 3 strategjive (për raportin)
+    mbushje_zero = df["sasia"].fillna(0)
+    mediana_hs = df.groupby("kodi_hs10")["sasia"].transform("median")
+    mbushje_mediana = df["sasia"].fillna(mediana_hs)
+    print("Strategjia 1 (fshirje e kolonës): humbet info për", df["ka_sasi"].sum(), "rreshta")
+    print("Strategjia 2 (mbushje me 0): mesatarja", round(mbushje_zero.mean(), 2))
+    print("Strategjia 3 (mediana sipas HS): mbeten NaN", int(mbushje_mediana.isna().sum()),
+          "sepse shumë kode HS nuk kanë asnjë sasi")
+    # Vendimi: ruhet sasia origjinale + flamuri ka_sasi, pa imputim.
+
     kolonat = ["muaji", "kodi_vendit", "emri_vendit", "eshte_shtet", "kodi_hs10", "pershkrimi",
-               "sasia", "vlera", "netweight", "taksa_doganes", "taksa_akcizes", "taksa_tvsh"]
+               "sasia", "ka_sasi", "vlera", "netweight", "taksa_doganes", "taksa_akcizes", "taksa_tvsh"]
     ruaj(df[kolonat], "importet_pastruara.csv")
 
 
