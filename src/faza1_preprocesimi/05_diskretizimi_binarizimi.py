@@ -15,6 +15,8 @@ from src.utils import lexo, ruaj  # noqa: E402
 def main():
     df = lexo("importet_me_veti.csv")
 
+    # One-hot encoding për kolonat nominale me pak kategori
+    df = pd.get_dummies(df, columns=["kontinenti", "tremujori"], prefix=["kont", "tm"], dtype=int)
     #--- Binarizimi ---
     df["ka_akcize"] = (df["taksa_akcizes"] > 0).astype(int)
     df["ka_dogane"] = (df["taksa_doganes"] > 0).astype(int)
