@@ -15,6 +15,11 @@ from src.utils import lexo, ruaj  # noqa: E402
 def main():
     df = lexo("importet_me_veti.csv")
 
+    # --- Diskretizimi ---
+    # Sipas kuartileve (frekuencë e barabartë)
+    df["kategoria_vleres"] = pd.qcut(df["vlera"], q=4,
+                                     labels=["e vogël", "mesatare", "e madhe", "shumë e madhe"])
+    print(df["kategoria_vleres"].value_counts().sort_index())
     ruaj(df, "importet_diskretizuara.csv")
 
 
