@@ -1,0 +1,15 @@
+log_vlera
+log_netweight
+log_taksa_doganes
+log_taksa_akcizes
+log_taksa_tvsh
+log_cmimi_per_kg
+norma_doganore
+norma_taksave
+pjesa_e_tvsh
+ka_sasi
+ka_akcize
+ka_dogane
+nga_BE
+nga_CEFTA
+muaji
