@@ -4,6 +4,20 @@ Projekt për lëndën **Përgatitja dhe vizualizimi i të dhënave** (PVDH), Fak
 
 Projekti analizon të gjitha importet e Kosovës për vitin 2025 (janar–dhjetor), sipas vendit të origjinës dhe kodit tarifor.
 
+## Tema dhe domeni
+
+- **Domeni:** Tregtia e jashtme / ekonomia (të dhëna doganore)
+- **Tema:** Importet e Kosovës 2025, sipas vendit të origjinës, kodit tarifor HS dhe taksave të paguara (doganë, akcizë, TVSH)
+- **Pyetjet kryesore:** Nga cilat vende dhe kontinente importon Kosova më shumë? Cilat grupe mallrash dominojnë? Si ndryshojnë importet dhe taksat sipas muajve? Sa ndikon marrëveshja me BE-në dhe CEFTA-n në taksën doganore?
+
+## Anëtarët e grupit dhe kontributi
+
+| Anëtari | GitHub | Kontributi në fazën 1 |
+|---|---|---|
+| Bleron Baftiu | [@bleronbaftiu21](https://github.com/bleronbaftiu21) | Hapi 01 (mbledhja, tipet, kualiteti), hapi 02 (pastrimi, vlerat e zbrazëta), `src/utils.py` |
+| Edison Ndou | [@edisonndou](https://github.com/edisonndou) | Hapi 03 (integrimi, agregimi, mostrimi), hapi 04 (krijimi i vetive) |
+| Donart Ajvazi | [@dajvazi](https://github.com/dajvazi) | Hapi 05 (diskretizimi, binarizimi), hapi 06 (transformimi, reduktimi, PCA), `main.py`, README |
+
 ## Dataseti
 
 | | |
@@ -99,6 +113,16 @@ Ekzekutimi zgjat disa minuta. Të gjitha daljet ruhen në `data/processed/`. Çd
 
 - Outlier-at **nuk janë hequr** në fazën 1, sepse detektimi i tyre është detyrë e fazës 2. Kolonat `z_*` janë gati për metodën statistikore (\|z\| > 3).
 - `norma_taksave` ka vlera ekstreme (maksimumi 26,829), te mallrat me vlerë të deklaruar shumë të vogël. Është kandidat për "zbulime jo të sakta".
+
+## Krahasimi me datasete të ngjashme
+
+| Dataseti | Burimi | Ngjashmëria | Dallimi nga dataseti ynë |
+|---|---|---|---|
+| [Global Commodity Trade Statistics](https://www.kaggle.com/datasets/unitednations/global-commodity-trade-statistics) | Kaggle (UN Comtrade) | Tregti sipas vendit, mallit (HS) dhe vitit, me vlerë, peshë dhe sasi | Agregim vjetor për shumë vende; nuk ka taksa as muaj |
+| [India Trade Data](https://www.kaggle.com/datasets/lakshyaag/india-trade-data) | Kaggle | Importet/eksportet e një vendi sipas vendit partner dhe kapitullit HS | Vetëm vlera (në milionë $), pa peshë, sasi dhe taksa |
+| [Online Retail](https://archive.ics.uci.edu/dataset/352/online+retail) | UCI | Transaksione me vend, sasi, çmim dhe datë; vlera të zbrazëta dhe negative për pastrim | Shitje me pakicë të një kompanie, jo të dhëna doganore |
+
+Dataseti ynë është më i detajuar se këto: ka nivel mujor, kod HS me 10 shifra dhe tri lloje taksash, gjë që lejon veti të reja si `norma_doganore` dhe `norma_taksave`. Problemet e kualitetit janë të ngjashme: `Sasia` mungon te 68.8% e rreshtave dhe disa përshkrime kanë karaktere të prishura nga encoding-u.
 
 ## Fazat e projektit
 
