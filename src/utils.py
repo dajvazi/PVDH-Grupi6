@@ -20,8 +20,9 @@ def lexo_raw() -> pd.DataFrame:
 
 
 def lexo(emri: str) -> pd.DataFrame:
-    return pd.read_csv(PROCESSED / emri, dtype={"kodi_hs10": str, "kodi_hs4": str, "kapitulli_hs": str})
-
+    # keep_default_na=False: kodi "NA" (Namibia) të mos lexohet si NaN; vetëm qelizat bosh janë NaN
+    return pd.read_csv(PROCESSED / emri, dtype={"kodi_hs10": str, "kodi_hs4": str, "kapitulli_hs": str},
+                       keep_default_na=False, na_values=[""])
 
 def ruaj(df: pd.DataFrame, emri: str) -> None:
     PROCESSED.mkdir(parents=True, exist_ok=True)

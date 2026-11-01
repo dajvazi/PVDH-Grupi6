@@ -10,18 +10,19 @@ import pandas as pd
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 from src.utils import lexo_raw, ruaj  # noqa: E402
 
+# (tipi statistikor, diskret/kontinual) sipas ligjëratës së javës III
 TIPET_STATISTIKORE = {
-    "VITI": "Ordinal (konstant)",
-    "MUAJI": "Ordinal / kohor",
-    "Regjimi": "Nominal (konstant)",
-    "Origjina": "Nominal",
-    "Kodi Tarifor": "Nominal (hierarkik)",
-    "Sasia": "Numerik (raport)",
-    "Vlera Mallrave": "Numerik (raport)",
-    "Netweight": "Numerik (raport)",
-    "Taksa Doganës": "Numerik (raport)",
-    "Taksa Akcizës": "Numerik (raport)",
-    "Taksa TVSH-së": "Numerik (raport)",
+    "VITI": ("Interval (konstant)", "Diskret"),
+    "MUAJI": ("Interval (kohor)", "Diskret"),
+    "Regjimi": ("Nominal (konstant)", "Diskret"),
+    "Origjina": ("Nominal", "Diskret"),
+    "Kodi Tarifor": ("Nominal (hierarkik)", "Diskret"),
+    "Sasia": ("Ratio", "Kontinual"),
+    "Vlera Mallrave": ("Ratio", "Kontinual"),
+    "Netweight": ("Ratio", "Kontinual"),
+    "Taksa Doganës": ("Ratio", "Kontinual"),
+    "Taksa Akcizës": ("Ratio", "Kontinual"),
+    "Taksa TVSH-së": ("Ratio", "Kontinual"),
 }
 
 
@@ -36,7 +37,8 @@ def main():
         raport.append({
             "kolona": kol,
             "tipi_pandas": str(s.dtype),
-            "tipi_statistikor": TIPET_STATISTIKORE.get(kol, ""),
+            "tipi_statistikor": TIPET_STATISTIKORE.get(kol, ("", ""))[0],
+            "diskret_kontinual": TIPET_STATISTIKORE.get(kol, ("", ""))[1],
             "vlera_unike": s.nunique(),
             "nan": int(s.isna().sum()),
             "nan_%": round(s.isna().mean() * 100, 2),
@@ -60,6 +62,7 @@ def main():
     baza = df["Vlera Mallrave"] + df["Taksa Doganës"] + df["Taksa Akcizës"]
     norma = (df["Taksa TVSH-së"] / baza).where(baza > 0)
     print("Norma mediane e TVSH-së:", round(norma.median(), 3))
+
 
 if __name__ == "__main__":
     main()

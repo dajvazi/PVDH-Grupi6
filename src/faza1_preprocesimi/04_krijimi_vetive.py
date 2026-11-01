@@ -8,7 +8,7 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.append(str(Path(__file__).resolve().parents[1]))
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 from src.utils import lexo, ruaj  # noqa: E402
 
 

@@ -28,8 +28,9 @@ def main():
 
     # Pastrimi i tekstit
     for kol in ["kodi_vendit", "emri_vendit", "kodi_hs10", "pershkrimi"]:
-        df[kol] = df[kol].str.strip()
-    df["pershkrimi"] = df["pershkrimi"].str.replace("?", "'", regex=False)
+        df[kol] = df[kol].str.replace(r"\s+", " ", regex=True).str.strip()
+    df["pershkrimi"] = (df["pershkrimi"].str.replace("Â?C", "°C", regex=False)
+                        .str.replace("?", "'", regex=False))
     df["emri_vendit"] = df["emri_vendit"].str.title()
 
     # Kodet që nuk janë shtete (XX = prodhime vendore, XY = mallra të denacionalizuara)
